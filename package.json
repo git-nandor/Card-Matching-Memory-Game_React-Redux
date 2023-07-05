@@ -1,0 +1,12 @@
+{
+  "name": "card-matching-memory-game_react-redux",
+  "version": "1.0.0",
+  "description": "Single-page application Card Matching Memory Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Nandor Czegledi",
+  "license": "ISC"
+}
