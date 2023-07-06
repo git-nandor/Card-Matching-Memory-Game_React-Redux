@@ -1,5 +1,5 @@
 import React from "react";
-import { BEST_TRIES_LABEL, CURRENT_TRIES_LABEL, GAME_RESTART_BTN } from "./strings";
+import { BEST_TRIES_LABEL, CURRENT_TRIES_LABEL, GAME_RESTART_BTN } from "../strings";
 
 const GameBoard = () => {
   const handleClickRestart = () => {
@@ -21,7 +21,7 @@ const GameBoard = () => {
           <div key={index} className="card" onClick={() => console.log(index + 1)}>
             <div className="card-inner">
               <div className="card-front">
-                <img src={require(`../images/card-front.png`)} alt="game card" />
+                <img src={require(`../images/question-cat.png`)} alt="game card" />
               </div>
               <div className="card-back">
                 <img src={require(`../images/card1.png`)} alt="game card" />

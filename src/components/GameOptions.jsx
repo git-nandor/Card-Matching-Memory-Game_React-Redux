@@ -1,5 +1,5 @@
 import React from "react";
-import { DECK_SIZE_LABEL, GAME_START_BTN } from "./strings";
+import { DECK_SIZE_LABEL, GAME_START_BTN } from "../strings";
 
 const GameOptions = () => {
   const handleOnChangeSelect = () => {

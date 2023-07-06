@@ -10,3 +10,5 @@ export const GAME_RESTART_BTN = 'RESTART';
 
 export const CURRENT_TRIES_LABEL = 'Current tries: ';
 export const BEST_TRIES_LABEL = 'Best tries record: ';
+
+export const ERROR_SOMETHING_WENT_WRONG = 'Something Went wrong!';

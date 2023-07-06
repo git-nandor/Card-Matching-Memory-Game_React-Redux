@@ -1,5 +1,5 @@
 import React from "react";
-import { GAME_RULES, GAME_RULES_TITLE, GAME_TITLE } from "./strings";
+import { GAME_RULES, GAME_RULES_TITLE, GAME_TITLE } from "../strings";
 
 const GameInfo = () => {
   return (

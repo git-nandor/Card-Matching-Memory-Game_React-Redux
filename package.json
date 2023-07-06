@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
-		"build": "webpack --mode production"
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "Nandor Czegledi",
   "license": "ISC",
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.6",

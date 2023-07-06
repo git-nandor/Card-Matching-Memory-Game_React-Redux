@@ -15,11 +15,26 @@
     background-color: #212121;
     max-width: 100%;
     min-height: 80px;
+    justify-content: center;
+    align-items: center;
+}
+
+.header > .game-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+    margin: 0;
+}
+
+.header #deck-size-select, .header #button-start {
+    margin: 0 1rem;
 }
 
 .logo-container {
     display: flex;
-    align-self: center;
+    position: absolute;
+    left: 0;
     margin: 5px 5px 5px 25px;
 }
 
@@ -173,4 +188,8 @@
     border-radius: 1rem;
     box-shadow: 2px solid grey;
     box-shadow: 1px 1px 2px grey;
+}
+
+.error-container {
+    padding-top: 5rem;
 }
