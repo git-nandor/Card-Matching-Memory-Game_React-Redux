@@ -1,10 +1,17 @@
 import React from "react";
+import Header from "./components/Header";
+import GameInfo from "./components/GameInfo";
+import GameOptions from "./components/GameOptions";
+import GameBoard from "./components/GameBoard";
 import "./App.css";
 
 const App = () => {
   return (
     <div className="App">
-      <h1>Hello bello</h1>
+      <Header />
+      <GameInfo />
+      <GameOptions />
+      <GameBoard />
     </div>
   );
 };
