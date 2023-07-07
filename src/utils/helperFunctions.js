@@ -33,24 +33,27 @@ export const flipCard = (flippedId, cards) => {
 
 export const matchCards = (cards) => {
   const flippedCards = cards.filter(card => card.isFlipped && !card.isMatched);
+  if (flippedCards.length !== 2) return { cards, matchFound: false };
 
-  if (flippedCards.length !== 2) {
-    return cards;
-  }
+  const isPairFound = flippedCards[0]?.image === flippedCards[1]?.image;
+  if (!isPairFound) return { cards, matchFound: false };
 
-  const isPairFound = flippedCards[0].image === flippedCards[1].image;
+  return { 
+    cards: cards.map(card => 
+      (card.id === flippedCards[0].id || card.id === flippedCards[1].id) 
+        ? { ...card, isMatched: true }
+        : card
+    ),
+    matchFound: true
+  };
+};
 
-  return cards.map(card => {
-    if (card.id === flippedCards[0].id || card.id === flippedCards[1].id) {
-      return {
-        ...card,
-        isMatched: isPairFound,
-        isFlipped: isPairFound,
-      };
-    } else {
-      return card;
-    }
-  });
+export const flipBackCards = (cards) => {
+  return cards.map(card => 
+    (card.isFlipped && !card.isMatched) 
+      ? { ...card, isFlipped: false }
+      : card
+  );
 };
 
 export const checkForWin = (cards) => {

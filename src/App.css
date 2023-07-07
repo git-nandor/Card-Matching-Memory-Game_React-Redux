@@ -151,7 +151,7 @@
     height: 150px;
 }
 
-.card:hover .card-inner {
+.flipped .card-inner {
     transform: rotateY(180deg);
 }
 
@@ -190,6 +190,18 @@
     box-shadow: 1px 1px 2px grey;
 }
 
+.matched {
+    opacity: 0.3;
+    transition: opacity 500ms linear;
+}
+
 .error-container {
     padding-top: 5rem;
+}
+
+.win-message {
+    color: white;
+    background-color: #5dbd35;
+    padding: 2rem;
+    font-size: 2rem;
 }

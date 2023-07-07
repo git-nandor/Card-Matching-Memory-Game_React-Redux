@@ -1,32 +1,31 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { startGameAction } from "../redux/gameActions";
-import { DECK_SIZE_LABEL, GAME_START_BTN, ROUTE_PATH_GAME } from "../strings";
+import useGameActions from "../utils/useGameActions";
+import { DECK_SIZE_LABEL, GAME_START_BTN } from "../strings";
+import { setDeckSizeAction } from "../redux/gameActions";
 
 const GameOptions = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();  
-  const gameState = useSelector((gameState) => gameState);
+  const dispatch = useDispatch(); 
+  const { handleStartGame } = useGameActions();
+  const { deckSize, deckMinSize, deckMaxSize } = useSelector((gameState) => gameState);
 
-  const handleChangeSelect = () => {
-    console.log("SELECT");
-  };
+  const handleOnChangeDeckSize = (e) => {
+    dispatch(setDeckSizeAction(parseInt(e.target.value)));
+  }
 
-  const handleStartGame = () => {
-    console.log("StartGame");
-    dispatch(startGameAction());
-    navigate(ROUTE_PATH_GAME);
+  const createSelectOptions = (deckMinSize, deckMaxSize) => {
+    const options = Array.from({ length: deckMaxSize - deckMinSize + 1 })
+    .map((_, index) => <option key={index} value={deckMinSize + index}>{deckMinSize + index}</option>)
+    .reverse();
+
+    return options;
   }
 
   return (
     <div className={"game-options"}>
       <label htmlFor="deck-size-select">{DECK_SIZE_LABEL}</label>
-
-      <select id="deck-size-select" value={gameState.deckSize} onChange={handleChangeSelect}>
-        {Array.from({ length: 10 })
-          .map((_c, index) => <option key={index} value={index+1}>{index+1}</option>)
-          .reverse()}
+      <select id="deck-size-select" value={deckSize} onChange={handleOnChangeDeckSize}>
+        {createSelectOptions(deckMinSize, deckMaxSize)}
       </select>
 
       <div className="button-container">
