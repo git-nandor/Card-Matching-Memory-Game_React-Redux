@@ -1,10 +1,21 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { flipCardAction, startGameAction } from "../redux/gameActions";
 import { BEST_TRIES_LABEL, CURRENT_TRIES_LABEL, GAME_RESTART_BTN } from "../strings";
 
 const GameBoard = () => {
-  const handleClickRestart = () => {
-    console.log("RESTART");
-  };
+    const dispatch = useDispatch();  
+    const gameState = useSelector((gameState) => gameState);
+
+    const handleClickRestart = () => {
+      console.log('game restart with state: ', gameState)
+      dispatch(startGameAction());  
+    };
+    
+    const handleClickCard = () => {
+      console.log('card clicked')
+      dispatch(flipCardAction());  
+    };
 
   return (
     <div className="game-board-container">
@@ -17,8 +28,8 @@ const GameBoard = () => {
         </button>
       </div>
       <div className="game-board">
-        {Array.from({ length: 10 }).map((_c, index) => (
-          <div key={index} className="card" onClick={() => console.log(index + 1)}>
+        {Array.from({ length: gameState.deckSize }).map((_c, index) => (
+          <div key={index} className="card" onClick={handleClickCard}>
             <div className="card-inner">
               <div className="card-front">
                 <img src={require(`../images/question-cat.png`)} alt="game card" />

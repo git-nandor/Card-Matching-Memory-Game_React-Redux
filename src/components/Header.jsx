@@ -2,10 +2,10 @@ import React from "react";
 import { useMatch } from 'react-router-dom';
 import GameOptions from "./GameOptions";
 import Logo from "../images/company-logo.png";
-import { LOGO_ALT } from "../strings";
+import { LOGO_ALT, ROUTE_PATH_GAME } from "../strings";
 
 const Header = () => {
-  const isOnGamePage = useMatch("/Game");
+  const isOnGamePage = useMatch(ROUTE_PATH_GAME);
 
   return (
     <div className="header">
