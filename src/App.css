@@ -23,12 +23,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: white;
+    font-size: .8rem;
+    color: #747474;
     margin: 0;
 }
 
 .header #deck-size-select, .header #button-start {
-    margin: 0 1rem;
+    margin: 0 .5rem;
 }
 
 .logo-container {
@@ -71,6 +72,8 @@
 }
 
 #deck-size-select {
+    font-size: 1rem;
+    font-weight: 600;
     appearance: none;
     border: 1px solid #dddddd;
     border-radius: 3px;
@@ -115,6 +118,13 @@
     cursor: pointer;
 }
 
+.game-board-container {
+    padding: 0 15vw 0 15vw;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+}
+
 .game-board-header {
     display: flex;
     flex-direction: row;
@@ -124,11 +134,19 @@
     padding-bottom: 1rem;
 }
 
-.game-board-container {
-    padding: 0 15vw 0 15vw;
-    background-color: #f2f2f2;
-    display: flex;
-    flex-direction: column;
+.game-board-info {
+    color: #747474;
+}
+
+.tries-count {
+    color: #000;
+    font-weight: 600;
+}
+
+.best-tries {
+    color: #000;
+    font-weight: 600;
+    font-size: 2rem;
 }
 
 .game-board {

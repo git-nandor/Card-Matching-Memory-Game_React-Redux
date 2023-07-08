@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkMatchAction, finishGameAction, flipUpCardAction } from "../redux/gameActions";
 import useGameActions from "../utils/useGameActions";
+import FlipContext from "../contexts/FlipContext";
 import { delayedFlipBackCardsThunk, immediateFlipBackCardsThunk  } from "../redux/gameThunk";
 import { BEST_TRIES_LABEL, CURRENT_TRIES_LABEL, GAME_RESTART_BTN, STATUS_FINISHED, WIN_MESSAGE } from "../strings";
+import { RESTART_FLAG, INITIAL_BEST_TRIES_RECORD_VALUE } from "../gameOptionsController";
 
 const GameBoard = () => {
     const dispatch = useDispatch();  
     const { handleStartGame } = useGameActions();
-    const { cards, triesCount, gameStatus } = useSelector((gameState) => gameState);
-    const [flipCounter, setFlipCounter] = useState(0);
 
-    const handleOnClickRestart = () => {
+    const bestTriesRecords = useSelector((state) => state.bestTriesRecords);
+    const cards = useSelector((state) => state.cards);
+    const deckSize = useSelector((state) => state.deckSize);
+    const gameStatus = useSelector((state) => state.gameStatus);
+    const triesCount = useSelector((state) => state.triesCount);
+
+    const { flipCounter, setFlipCounter } = useContext(FlipContext);
+
+    const handleOnClickRestart = (_e) => {
       setFlipCounter(0);
-      handleStartGame();  
+      handleStartGame(RESTART_FLAG);  
     };
     
     const handleOnClickCard = (id) => {
@@ -23,12 +31,14 @@ const GameBoard = () => {
     };
 
     useEffect(() => {
-      if (flipCounter % 2 === 0) {
+      const isAnyCardsFlipped = cards.some(card => card.isFlipped && !card.isMatched);
+      
+      if (isAnyCardsFlipped && flipCounter % 2 === 0) {
         dispatch(checkMatchAction());
         dispatch(delayedFlipBackCardsThunk(2000));
         dispatch(finishGameAction());
       }
-    }, [dispatch, flipCounter]);
+    }, [dispatch, flipCounter, cards]);
 
     const createCards = (cards) => {
       const createdCards = cards.map((card, _index) => {
@@ -85,11 +95,17 @@ const GameBoard = () => {
       }
     }
 
+  const getBestTriesRecord = (bestTriesRecords, deckSize) => {
+    const bestRecord = bestTriesRecords[deckSize] || INITIAL_BEST_TRIES_RECORD_VALUE;
+  
+    return (<div className="best-record">{bestRecord === INITIAL_BEST_TRIES_RECORD_VALUE ? '0' : bestRecord}</div>);
+  }
+
   return (
     <div className="game-board-container">
       <div className="game-board-header">
-        <div className="current-tries">{CURRENT_TRIES_LABEL}{triesCount}</div>
-        <div className="tries-record">{BEST_TRIES_LABEL}0</div>
+        <div className="game-board-info">{CURRENT_TRIES_LABEL}<span className="tries-count">{triesCount}</span></div>
+        <div className="game-board-info">{BEST_TRIES_LABEL}<span className="best-tries">{getBestTriesRecord(bestTriesRecords, deckSize)}</span></div>
 
         <button id="button-restart" onClick={handleOnClickRestart}>
           {GAME_RESTART_BTN}

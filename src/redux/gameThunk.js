@@ -20,3 +20,7 @@ export const immediateFlipBackCardsThunk = () => async (dispatch) => {
     dispatch(flipBackCardsAction());
   }
 };
+
+export const clearFlipBackCardsThunk = () => async () => {
+  clearTimeout(flipBackTimeoutID);
+};

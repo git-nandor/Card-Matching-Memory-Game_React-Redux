@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { INITIAL_BEST_TRIES_RECORD_VALUE, RESTART_FLAG } from "../gameOptionsController";
 
 export const generateCards = (deckSize) => {
   const cards = [];
@@ -33,18 +34,18 @@ export const flipCard = (flippedId, cards) => {
 
 export const matchCards = (cards) => {
   const flippedCards = cards.filter(card => card.isFlipped && !card.isMatched);
-  if (flippedCards.length !== 2) return { cards, matchFound: false };
+  if (flippedCards.length !== 2) return { matchedCardsData: cards, isMatchCardsFound: false };
 
   const isPairFound = flippedCards[0]?.image === flippedCards[1]?.image;
-  if (!isPairFound) return { cards, matchFound: false };
+  if (!isPairFound) return { matchedCardsData: cards, isMatchCardsFound: false };
 
   return { 
-    cards: cards.map(card => 
+    matchedCardsData: cards.map(card => 
       (card.id === flippedCards[0].id || card.id === flippedCards[1].id) 
         ? { ...card, isMatched: true }
         : card
     ),
-    matchFound: true
+    isMatchCardsFound: true,
   };
 };
 
@@ -61,3 +62,27 @@ export const checkForWin = (cards) => {
 
   return isAllMatched;
 }
+
+export const generateRecords = (bestTriesRecords, deckMinSize, deckMaxSize) => {
+  const records = {};
+
+  for (let size = deckMinSize; size <= deckMaxSize; size++) {
+    records[size] = bestTriesRecords[size] || INITIAL_BEST_TRIES_RECORD_VALUE;
+  }
+  return records;
+};
+
+export const getStartingDeckSize = (startTypeFlag, preparedDeckSize, deckSize) => {
+  if (startTypeFlag === RESTART_FLAG) {
+    return deckSize;
+  }
+
+  return preparedDeckSize;
+};
+
+export const getNewRecords = (isWin, bestTriesRecords, triesCount, deckSize) => {
+  if (isWin && triesCount < bestTriesRecords[deckSize]) {
+    return { ...bestTriesRecords, [deckSize]: triesCount };
+  }
+  return { ...bestTriesRecords };
+};

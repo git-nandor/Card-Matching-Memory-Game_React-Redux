@@ -1,5 +1,5 @@
 export const actionTypes = {
-  SET_DECK_SIZE: 'SET_DECK_SIZE',
+  PREPARE_DECK_SIZE: 'PREPARE_DECK_SIZE',
   START_GAME: 'START_GAME',
   FLIP_UP_CARD: 'FLIP_UP_CARD',
   CHECK_MATCH: 'CHECK_MATCH',
@@ -7,13 +7,14 @@ export const actionTypes = {
   FINISH_GAME: 'FINISH_GAME'
 };
 
-export const setDeckSizeAction = (deckSize) => ({
-  type: actionTypes.SET_DECK_SIZE,
+export const prepareDeckSizeAction = (deckSize) => ({
+  type: actionTypes.PREPARE_DECK_SIZE,
   payload: deckSize
 });
 
-export const startGameAction = () => ({
-  type: actionTypes.START_GAME
+export const startGameAction = (startTypeFlag) => ({
+  type: actionTypes.START_GAME,
+  payload: startTypeFlag
 });
 
 export const flipUpCardAction = (id) => ({
@@ -26,7 +27,7 @@ export const checkMatchAction = () => ({
 });
 
 export const flipBackCardsAction = () => ({
-  type: actionTypes.FLIP_BACK_CARDS,
+  type: actionTypes.FLIP_BACK_CARDS
 });
 
 export const finishGameAction = () => ({
