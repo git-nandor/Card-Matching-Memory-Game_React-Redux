@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGameActions from "../utils/useGameActions";
 import { prepareDeckSizeAction } from "../redux/gameActions";
-import FlipContext from "../contexts/FlipContext";
 import { DECK_SIZE_LABEL, GAME_START_BTN } from "../strings";
 import { NORMAL_START_FLAG } from "../gameOptionsController";
 
@@ -14,14 +13,11 @@ const GameOptions = () => {
   const deckMinSize = useSelector((state) => state.deckMinSize);
   const deckMaxSize = useSelector((state) => state.deckMaxSize);
 
-  const { setFlipCounter } = useContext(FlipContext);
-
   const handleOnChangeDeckSize = (e) => {
     dispatch(prepareDeckSizeAction(parseInt(e.target.value)));
   }
 
   const handleOnClickStart = (_e) => {
-    setFlipCounter(0);
     handleStartGame(NORMAL_START_FLAG)
   }
 

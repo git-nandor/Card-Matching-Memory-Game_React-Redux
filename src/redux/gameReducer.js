@@ -10,13 +10,13 @@ import { INITIAL_DECK_MAX_SIZE, INITIAL_DECK_MIN_SIZE, INITIAL_DECK_SIZE } from 
     deckSize: INITIAL_DECK_SIZE,
     deckMaxSize: INITIAL_DECK_MAX_SIZE,
     deckMinSize: INITIAL_DECK_MIN_SIZE,
+    flipCount: 0,
     triesCount: 0,
+    bestTriesRecords: { },
     cards: [ ],
-    bestTriesRecords: { }
   };
   
   function gameReducer(gameState = initialState, action) {
-    // const { gameStatus, isMatchFound, preparedDeckSize, deckSize, deckMaxSize, deckMinSize, triesCount, cards, bestTriesRecords } = gameState;
 
     switch (action.type) {
       case actionTypes.PREPARE_DECK_SIZE:
@@ -26,12 +26,13 @@ import { INITIAL_DECK_MAX_SIZE, INITIAL_DECK_MIN_SIZE, INITIAL_DECK_SIZE } from 
         };
       case actionTypes.START_GAME:
         const startingDeckSize = getStartingDeckSize(action.payload, gameState.preparedDeckSize, gameState.deckSize);
-        const cards = generateCards(startingDeckSize, action.payload);
+        const generatedCards = generateCards(startingDeckSize, action.payload);
         const records = generateRecords(gameState.bestTriesRecords, gameState.deckMinSize, gameState.deckMaxSize);
         return {
           ...gameState,
           gameStatus: STATUS_IN_PROGRESS,
-          cards,
+          cards: generatedCards,
+          flipCount: 0,
           triesCount: 0,
           bestTriesRecords: records,
           deckSize: startingDeckSize,
@@ -41,20 +42,23 @@ import { INITIAL_DECK_MAX_SIZE, INITIAL_DECK_MIN_SIZE, INITIAL_DECK_SIZE } from 
         return {
           ...gameState,
           cards: flippedCards,
+          flipCount: gameState.flipCount + 1,
         };
       case actionTypes.CHECK_MATCH:
         const { matchedCardsData: matchedCards, isMatchCardsFound } = matchCards(gameState.cards);
+        const triesAfterCheckMatch = isMatchCardsFound ? gameState.triesCount + 1 : gameState.triesCount;
         return {
           ...gameState,
           cards: matchedCards,
           isMatchFound: isMatchCardsFound,
+          triesCount: triesAfterCheckMatch,
         };  
       case actionTypes.FLIP_BACK_CARDS:
         const backFlippedCards = flipBackCards(gameState.cards);
         return {
           ...gameState,
           cards: backFlippedCards,
-          triesCount: gameState.gameStatus === STATUS_IN_PROGRESS ? gameState.triesCount + 1 : gameState.triesCount,
+          triesCount: gameState.triesCount + 1,
         };  
       case actionTypes.FINISH_GAME:
         const isWin = checkForWin(gameState.cards);
@@ -69,4 +73,3 @@ import { INITIAL_DECK_MAX_SIZE, INITIAL_DECK_MIN_SIZE, INITIAL_DECK_SIZE } from 
     }
   }
   export default gameReducer;
-  

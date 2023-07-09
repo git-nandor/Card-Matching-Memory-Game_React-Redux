@@ -23,4 +23,5 @@ export const immediateFlipBackCardsThunk = () => async (dispatch) => {
 
 export const clearFlipBackCardsThunk = () => async () => {
   clearTimeout(flipBackTimeoutID);
+  flipBackTimeoutID = null;
 };

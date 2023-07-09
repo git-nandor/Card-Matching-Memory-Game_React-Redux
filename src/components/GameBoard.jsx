@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkMatchAction, finishGameAction, flipUpCardAction } from "../redux/gameActions";
 import useGameActions from "../utils/useGameActions";
-import FlipContext from "../contexts/FlipContext";
 import { delayedFlipBackCardsThunk, immediateFlipBackCardsThunk  } from "../redux/gameThunk";
 import { BEST_TRIES_LABEL, CURRENT_TRIES_LABEL, GAME_RESTART_BTN, STATUS_FINISHED, WIN_MESSAGE } from "../strings";
 import { RESTART_FLAG, INITIAL_BEST_TRIES_RECORD_VALUE } from "../gameOptionsController";
@@ -15,30 +14,27 @@ const GameBoard = () => {
     const cards = useSelector((state) => state.cards);
     const deckSize = useSelector((state) => state.deckSize);
     const gameStatus = useSelector((state) => state.gameStatus);
+    const flipCount = useSelector((state) => state.flipCount);
     const triesCount = useSelector((state) => state.triesCount);
 
-    const { flipCounter, setFlipCounter } = useContext(FlipContext);
-
     const handleOnClickRestart = (_e) => {
-      setFlipCounter(0);
       handleStartGame(RESTART_FLAG);  
     };
     
     const handleOnClickCard = (id) => {
       dispatch(immediateFlipBackCardsThunk());
       dispatch(flipUpCardAction(id));
-      setFlipCounter(flipCounter + 1);
     };
 
     useEffect(() => {
       const isAnyCardsFlipped = cards.some(card => card.isFlipped && !card.isMatched);
       
-      if (isAnyCardsFlipped && flipCounter % 2 === 0) {
+      if (isAnyCardsFlipped && flipCount % 2 === 0) {
         dispatch(checkMatchAction());
         dispatch(delayedFlipBackCardsThunk(2000));
         dispatch(finishGameAction());
       }
-    }, [dispatch, flipCounter, cards]);
+    }, [flipCount, cards]);
 
     const createCards = (cards) => {
       const createdCards = cards.map((card, _index) => {
