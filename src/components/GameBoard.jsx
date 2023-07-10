@@ -17,6 +17,8 @@ const GameBoard = () => {
     const flipCount = useSelector((state) => state.flipCount);
     const triesCount = useSelector((state) => state.triesCount);
 
+    const isWin = gameStatus === STATUS_FINISHED;
+
     const handleOnClickRestart = (_e) => {
       handleStartGame(RESTART_FLAG);  
     };
@@ -61,12 +63,14 @@ const GameBoard = () => {
             <div className="card-inner">
               <div className="card-front">
                 <img
+                  className="card-front-image"
                   src={require(`../images/question-cat.png`)}
                   alt="game card front"
                 />
               </div>
               <div className="card-back">
                 <img
+                  className="card-back-image"
                   src={require(`../images/${card.image}`)}
                   alt="game card back"
                 />
@@ -79,17 +83,16 @@ const GameBoard = () => {
       return createdCards;
     };
     
-    const createWinMessage = () => {
-      if(gameStatus === STATUS_FINISHED) {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-        return (
-          <div className="win-message">{WIN_MESSAGE}</div>
-        )
-      }
-    }
+    const createWinMessage = (isWin) => {
+      isWin && window.scrollTo({ top: 0, behavior: 'smooth' });
+      return (
+          <div className="win-message">
+              <div className={isWin ? "win-message-content" : "not-win-message-content"}>
+                  {isWin && WIN_MESSAGE}
+              </div>
+          </div>
+      );
+  };
 
   const getBestTriesRecord = (bestTriesRecords, deckSize) => {
     const bestRecord = bestTriesRecords[deckSize] || INITIAL_BEST_TRIES_RECORD_VALUE;
@@ -107,7 +110,9 @@ const GameBoard = () => {
           {GAME_RESTART_BTN}
         </button>
       </div>
-      {createWinMessage()}
+      <div className="win-message-container">
+        {createWinMessage(isWin)}
+      </div>
       <div className="game-board">
         {createCards(cards)}
       </div>

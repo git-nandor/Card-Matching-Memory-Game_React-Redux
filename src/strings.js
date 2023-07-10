@@ -9,7 +9,7 @@ export const GAME_START_BTN = 'START NEW GAME';
 export const GAME_RESTART_BTN = 'RESTART';
 
 export const CURRENT_TRIES_LABEL = 'Current tries: ';
-export const BEST_TRIES_LABEL = 'Best tries record: ';
+export const BEST_TRIES_LABEL = 'Best: ';
 export const WIN_MESSAGE = 'WIN!';
 
 export const ERROR_SOMETHING_WENT_WRONG = 'Something Went wrong!';
